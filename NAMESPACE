@@ -1,0 +1,15 @@
+exportPattern("^[[:alpha:]]+")
+
+# S3 methods
+S3method(plot, czek_matrix)
+
+# Import all packages listed as Imports or Depends
+importFrom(GA, ga, gaControl)
+importFrom(graphics, axis, barplot, box, legend, par, plot)
+importFrom(methods, as, is)
+importFrom(seriation, get_order, seriate, show_seriation_methods)
+importFrom(stats, dist, ecdf, quantile)
+## importFrom(utils, installed.packages)
+
+
+

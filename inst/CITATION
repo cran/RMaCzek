@@ -1,0 +1,21 @@
+citHeader("To cite the pcmabc package in publications use:")
+
+citEntry(
+         entry="MastersThesis",
+         author=personList(
+           as.person("Albin Vasterlund")
+           ),
+         title="Czekanowski's Diagram: Implementing and exploring Czekanowski's Diagram with different seriation methods",
+         school="Linkoping University",
+         address="Sweden",
+	 year = 2019,
+         textVersion=paste(
+         "Vasterlund, A. (2019)",
+	 "Czekanowski's Diagram: Implementing and exploring Czekanowski's Diagram with different seriation methods",
+	 "Master thesis", "Linkoping University, Sweden"
+           )
+         )
+
+citFooter("As RMaCzek is continually evolving, you may want to cite its version number. Find it with 'help(package=RMaCzek)'.")
+
+
