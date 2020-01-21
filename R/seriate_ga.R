@@ -1,4 +1,4 @@
-.seriate_ga <- function(x, control= list(fitness = .Um_factor,
+.seriate_ga <- function(x, control= list(fitness = Um_factor,
                                         population =GA::gaControl("permutation")$population,
                                         suggestions = c("QAP_2SUM"),
                                         selection = GA::gaControl("permutation")$selection,
@@ -14,7 +14,8 @@
                                         verbose = FALSE,
                                         output="order")){
 
-  if(!class(x)=="dist"){
+##  if(!class(x)=="dist"){
+  if(all(class(x)!="dist")){
     stop("x need to be of class dist")
   }
 
@@ -55,7 +56,7 @@
 
     defaults
   }
-  control <- .local_get_parameters(control, list(fitness = .Um_factor,
+  control <- .local_get_parameters(control, list(fitness = Um_factor,
                                            population =GA::gaControl("permutation")$population,
                                            suggestions = c("SPIN_STS"),
                                            selection = GA::gaControl("permutation")$selection,

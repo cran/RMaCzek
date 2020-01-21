@@ -1,11 +1,31 @@
-.Um_factor<-function(distMatrix,
+## Krzysztof Bartoszek documentation and made non-hidden
+#'@title Calculate the Um factor
+#'@description The function calculates the Um factor associated with an ordering of the rows and columns of a distance matrix. Lower values indicate a better grouping of similar objects. This was the original objective function proposed in the MaCzek program for producing Czekanowski's Diagram.
+#'@param distMatrix a 'dist' object, matrix of distnaces between observations.
+#'@param order a vector, if NULL, then the value of the factor is calculate for the distance matrix as is, otherwise the rows and columns are reordered according to the vector order.
+#'@param matrix_conversion_coefficient numeric, value to be added to the distances, so that a division by 0 error is not thrown.
+#'@param inverse_um logical, if TRUE, then the negative is returned. Defualt TRUE as the function is called in the genetic algorithm maximization procedures.
+#'@export
+#'@return The function returns a numeric value equalling the Um_factor.
+#'@examples
+#'# Set data ####
+#'x<-mtcars
+#'
+#'mD<-stats::dist(scale(x))
+#'mCz<-czek_matrix(x)
+#'Um_factor(mD)
+#'Um_factor(mD,order=attr(mCz,"order"))
+## ========================================================================
+
+Um_factor<-function(distMatrix,
                 order=NULL,
                 matrix_conversion_coefficient=1,
-                inverse_um=TRUE,
-                scale_factor=FALSE){
+                inverse_um=TRUE){
+##                ,scale_factor=FALSE){ ## Krzysztof Bartoszek uncommented
 
   # Change the class to matrix
-  if(class(distMatrix)!="matrix"){
+##  if(class(distMatrix)!="matrix"){
+  if(!is.matrix(distMatrix)){
     distMatrix<-as.matrix(distMatrix)
   }
 
@@ -17,29 +37,29 @@
 
   #Dimensions of the distance matrix
   d <- dim(distMatrix)
-
-
-
-  #Calculate the over part in Um factor
-##  over<-((.row(d) -.col(d))^2)[.row(d) > .col(d)]
-  over<-((d[1] -d[2])^2)[d[1] > d[2]]
-
-  #Calculate the under part in Um factor
-##  under<-distMatrix[.row(d) > .col(d)]+matrix_conversion_coefficient
-  under<-distMatrix[d[1] > d[2]]+matrix_conversion_coefficient
-
-  # Calculate Um factor
+## Krzysztof Bartoszek ====================================================
   n<-d[1]
-  um_value<-(sum(over/under)*2)/n^2
+
+  mDtmp<-matrix(1:n^2,n,n)
+  mDtmp<-apply(mDtmp,c(1,2),function(ij){
+    i<-(ij-1)%/%n+1
+    j<-(ij-1)%%n+1
+    (i-j)^2
+  })
+  
+  mDtmp<-mDtmp/(distMatrix+1)
+  um_value<-2*sum(mDtmp[upper.tri(mDtmp,diag=FALSE)])/n^2
+## ========================================================================  
 
   if(inverse_um){
     um_value<-(-um_value)
   }
 
-  if(scale_factor=="n^4"){
-    um_value<-um_value/nrow(distMatrix)^2
-  }
-
+## Krzysztof Bartosek made commented
+##  if(scale_factor=="n^4"){
+##    um_value<-um_value/nrow(distMatrix)^2
+##  }
+## ========================================================================
 
   return(um_value)
 
