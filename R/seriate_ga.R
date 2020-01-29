@@ -15,11 +15,10 @@
                                         output="order")){
 
 ##  if(!class(x)=="dist"){
-  if(all(class(x)!="dist")){
+##  if(all(class(x)!="dist")){
+  if(!inherits(x,"dist")){
     stop("x need to be of class dist")
   }
-
-
 
   .local_get_parameters <- function(parameter, defaults) {
     defaults <- as.list(defaults)

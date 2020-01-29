@@ -10,13 +10,13 @@ Um_factor(
 )
 }
 \arguments{
-\item{distMatrix}{a 'dist' object, matrix of distnaces between observations.}
+\item{distMatrix}{a 'dist' object, matrix of distances between observations.}
 
 \item{order}{a vector, if NULL, then the value of the factor is calculate for the distance matrix as is, otherwise the rows and columns are reordered according to the vector order.}
 
 \item{matrix_conversion_coefficient}{numeric, value to be added to the distances, so that a division by 0 error is not thrown.}
 
-\item{inverse_um}{logical, if TRUE, then the negative is returned. Defualt TRUE as the function is called in the genetic algorithm maximization procedures.}
+\item{inverse_um}{logical, if TRUE, then the negative is returned. Default TRUE as the function is called in the genetic algorithm maximization procedures.}
 }
 \value{
 The function returns a numeric value equalling the Um_factor.

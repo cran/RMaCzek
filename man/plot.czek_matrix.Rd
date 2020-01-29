@@ -26,10 +26,7 @@
 
 \item{axis}{specifies if the labels for the objects should be included. The standard setting is that the labels are included.}
 
-\item{...}{specifies further parameters that can be passed on to the seriate function in the seriation package.}
-}
-\value{
-The function returns a Czekanowski's Diagram.
+\item{...}{specifies further parameters that can be passed on to the plot function.}
 }
 \description{
 This is a function that can produce Czekanowski's Diagram.
@@ -93,7 +90,7 @@ plot(x,legend = TRUE)
 # Remove axis name ############
 plot(x,axis = FALSE)
 
-# Change additinal settings to the plot function ############
+# Change additional settings to the plot function ############
 plot(x,col.main="blue",font.main=9,cex.main=2)
 }
 

@@ -1,10 +1,10 @@
 ## Krzysztof Bartoszek documentation and made non-hidden
 #'@title Calculate the Um factor
 #'@description The function calculates the Um factor associated with an ordering of the rows and columns of a distance matrix. Lower values indicate a better grouping of similar objects. This was the original objective function proposed in the MaCzek program for producing Czekanowski's Diagram.
-#'@param distMatrix a 'dist' object, matrix of distnaces between observations.
+#'@param distMatrix a 'dist' object, matrix of distances between observations.
 #'@param order a vector, if NULL, then the value of the factor is calculate for the distance matrix as is, otherwise the rows and columns are reordered according to the vector order.
 #'@param matrix_conversion_coefficient numeric, value to be added to the distances, so that a division by 0 error is not thrown.
-#'@param inverse_um logical, if TRUE, then the negative is returned. Defualt TRUE as the function is called in the genetic algorithm maximization procedures.
+#'@param inverse_um logical, if TRUE, then the negative is returned. Default TRUE as the function is called in the genetic algorithm maximization procedures.
 #'@export
 #'@return The function returns a numeric value equalling the Um_factor.
 #'@examples
@@ -40,14 +40,15 @@ Um_factor<-function(distMatrix,
 ## Krzysztof Bartoszek ====================================================
   n<-d[1]
 
-  mDtmp<-matrix(1:n^2,n,n)
-  mDtmp<-apply(mDtmp,c(1,2),function(ij){
-    i<-(ij-1)%/%n+1
-    j<-(ij-1)%%n+1
-    (i-j)^2
-  })
-  
-  mDtmp<-mDtmp/(distMatrix+1)
+#  mDtmp<-matrix(1:n^2,n,n)
+# mDtmp<-apply(mDtmp,c(1,2),function(ij){
+#    i<-(ij-1)%/%n+1
+#    j<-(ij-1)%%n+1
+#    (i-j)^2
+# })
+# 
+#  mDtmp<-mDtmp/(distMatrix+1)
+  mDtmp<-(outer(1:n,1:n,function(x,y){(x-y)^2}))/(distMatrix+1)
   um_value<-2*sum(mDtmp[upper.tri(mDtmp,diag=FALSE)])/n^2
 ## ========================================================================  
 

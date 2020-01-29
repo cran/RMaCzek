@@ -3,7 +3,7 @@
 \docType{data}
 \title{Distances between archaic human skulls}
 \description{
-A data martix containing the distances between 13 skulls
+A data matrix containing the distances between 13 skulls
 of archaic humans (Table II, Czekanowski, 1909).
 }
 \usage{skulls_distances}

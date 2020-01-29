@@ -14,7 +14,7 @@ czek_matrix(x, order = "OLO", n_classes = 5, interval_breaks = NULL,
 
 \item{n_classes}{specifies how many classes the distances should be divided into. The standard setting is 5 classes.}
 
-\item{interval_breaks}{specifies the partition boundaries for the distances. As a standard setting, each class represents an equal amount of distances.  If the interval, breaks are positive and sum up to 1, then it is assumed that they specify percantages of the distances in each interval. Otherwise if provided as a numeric vector not summing up to 1, they specify the eact boundaries for the symbols representing distance groups.}
+\item{interval_breaks}{specifies the partition boundaries for the distances. As a standard setting, each class represents an equal amount of distances.  If the interval, breaks are positive and sum up to 1, then it is assumed that they specify percentages of the distances in each interval. Otherwise if provided as a numeric vector not summing up to 1, they specify the exact boundaries for the symbols representing distance groups.}
 
 \item{monitor}{specifies if the distribution of the distances should be visualized. The standard setting is that the distribution will not be visualized. TRUE and "cumulativ_plot" is available.}
 
@@ -24,7 +24,7 @@ czek_matrix(x, order = "OLO", n_classes = 5, interval_breaks = NULL,
 
 \item{focal_obj}{numbers or names of objects (rows if x is a dataset and not 'dist' object) that are not to take part in the reordering procedure. These observations will be placed as last rows and columns of the output matrix. See Details.}
 
-\item{as_dist}{if TRUE, then the distance matrix of x is returned, with object ordering, instead of the matrix with the levels assigned in place of the original distances.}
+\item{as_dist}{if TRUE, then the distance matrix of x is returned, with object ordering, instead of the matrix with the levels assigned in place of the original distances. The output will, be of class czek_matrix_dist, if FALSE, then of class czek_matrix.}
 
 \item{original_diagram}{if TRUE, then the returned matrix corresponds as close as possible to the original method proposed by Czekanowski (1909). The levels are column specific and not matrix specific. See Details.}
 
@@ -45,7 +45,7 @@ how the order statistics should be grouped in each column. See Example.
 The user may also choose some observations not to influence the ordering procedure.
 This could be useful if e.g. a single observation is meant to be assigned to a cluster
 and for some reason the clusters (that are to be read of from the ordering) should 
-not be influenced by this observatin. One can pass such observations using the
+not be influenced by this observation. One can pass such observations using the
 focal_obs parameter.
 
 A hopefully useful property is that the ordering inside the czek_matrix (and hence
@@ -55,7 +55,13 @@ the Path_length, criterion_value and Um attributes will have incorrect values
 and should be corrected (see Examples).
 }
 \value{
-The function returns a matrix with class czek_matrix. The return from the function is expected to be passed to the plot function. If as_dist is passed as TRUE, then a czek_matrix_dist object is returned and this is not suitable for the plotting.  As an attribute of the output the optimized criterion value is returned. However, this is a guess based on seriation::seriate()'s and seriation::criterion()'s manuals. If something else was optimized, e.g. due to user's parameters, then this will be wrong. If unable to guess, then NA saved in the attribute.
+The function returns a matrix with class czek_matrix. The return from the function is expected 
+to be passed to the plot function. If as_dist is passed as TRUE, 
+then a czek_matrix_dist object is returned and this is not suitable for the plotting.  
+As an attribute of the output the optimized criterion value is returned. However, this is a 
+guess based on seriation::seriate()'s and seriation::criterion()'s manuals. 
+If something else was optimized, e.g. due to user's parameters, then this will be wrong. 
+If unable to guess, then NA saved in the attribute.
 }
 \description{
 This is a function that divided the values inside a distance matrix into classes. The output can be used in the plot function to produce a Czekanowski's Diagram.
@@ -145,6 +151,10 @@ czek_matrix(x,focal_obj=c("Merc 280","Merc 450SL"))
 czek_res<-czek_matrix(x,focal_obj=c(10,13))
 
 ## we now place the two objects in a new place
+czek_res_neworder<-manual_reorder(czek_res,c(1:10,31,11:20,32,21:30),
+    orig_data=x)
+
+## the same can be alternatively done by hand
 attr(czek_res,"order")<-attr(czek_res,"order")[c(1:10,31,11:20,32,21:30)]
 ## and then correct the values of the different criteria so that they
 ## are consistent with the new ordering

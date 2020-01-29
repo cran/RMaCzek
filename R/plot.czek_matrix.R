@@ -9,9 +9,8 @@
 #'@param plot_title specifies the main title in the graph.
 #'@param legend specifies if a legend should be included or not. The standard setting is that the legend will not be included.
 #'@param axis specifies if the labels for the objects should be included. The standard setting is that the labels are included.
-#'@param ... specifies further parameters that can be passed on to the seriate function in the seriation package.
+#'@param ... specifies further parameters that can be passed on to the plot function.
 #'@export
-#'@return The function returns a Czekanowski's Diagram.
 #'@examples
 #'# Set data ####
 #'x<-czek_matrix(mtcars)
@@ -56,7 +55,7 @@
 #'plot(x,axis = FALSE)
 #'
 #'
-#'# Change additinal settings to the plot function ############
+#'# Change additional settings to the plot function ############
 #'plot(x,col.main="blue",font.main=9,cex.main=2)
 
 
@@ -218,6 +217,4 @@ plot.czek_matrix<-function(x,
     # Set back the settings for par
     graphics::par(mar=old_mar,xpd=old_xpd)
   }
-
-
 }

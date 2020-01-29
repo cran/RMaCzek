@@ -1,9 +1,9 @@
 \name{urns}
 \alias{urns}
 \docType{data}
-\title{Measurements of urns from cremational graves}
+\title{Measurements of urns from cremation graves}
 \description{
-Measurements of urns from cremational graves excavated at Paprotki
+Measurements of urns from cremation graves excavated at Paprotki
 Kolonia 12 in Poland (Table p. 181, Soltysiak and Jaskulski 1999).
 }
 \usage{urns}

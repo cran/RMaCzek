@@ -3,7 +3,7 @@
 \docType{data}
 \title{Similarities between Akkadian cylinder seals depicting the Serpent God}
 \description{
-A data martix containing the similarities between 37 seals
+A data matrix containing the similarities between 37 seals
 depicting the Serpent God (Table 10, Soltysiak 2000).
 }
 \usage{skulls_distances}
@@ -12,7 +12,7 @@ depicting the Serpent God (Table 10, Soltysiak 2000).
 }
 \details{
 In the original similarities table, there are no values on the diagonal 
-(i.e. self-similarity). Hence for furtherer analyses, something has to
+(i.e. self-similarity). Hence for further analyses, something has to
 be filled in, e.g. 100.
 }
 \source{
@@ -22,7 +22,7 @@ The similarity matrix is taken from Soltysiak (2000).
 Soltysiak, A. (2000);
 "Przedstawienie Boga-Weza na pieczeciach cylindrycznych z okresu
 akadyjskiego: analiza ikonograficzna." Studia i Materialy Archeologiczne, 10, 189-214.
-(Depiction of the Serpent God on cylinder seals from the Akkadian era: and iconogrphic
+(Depiction of the Serpent God on cylinder seals from the Akkadian era: and iconographic
 analysis, in Polish).
 }
 \examples{

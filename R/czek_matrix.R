@@ -3,7 +3,7 @@
 #'@param x  a numeric matrix, data frame or a 'dist' object.
 #'@param order specifies which seriation method should be applied. The standard setting is the seriation method OLO. If NA or NULL, then no seriation is done and the original ordering is saved.  The user may provide their own ordering, through a number vector of indices. Also in this case no rearrangement will be done.
 #'@param n_classes specifies how many classes the distances should be divided into. The standard setting is 5 classes.
-#'@param interval_breaks specifies the partition boundaries for the distances. As a standard setting, each class represents an equal amount of distances. If the interval, breaks are positive and sum up to 1, then it is assumed that they specify percantages of the distances in each interval. Otherwise if provided as a numeric vector not summing up to 1, they specify the eact boundaries for the symbols representing distance groups.
+#'@param interval_breaks specifies the partition boundaries for the distances. As a standard setting, each class represents an equal amount of distances. If the interval, breaks are positive and sum up to 1, then it is assumed that they specify percentages of the distances in each interval. Otherwise if provided as a numeric vector not summing up to 1, they specify the exact boundaries for the symbols representing distance groups.
 #'@param monitor specifies if the distribution of the distances should be visualized. The standard setting is that the distribution will not be visualized. TRUE and "cumulativ_plot" is available.
 #'@param distfun specifies which distance function should be used. Standard setting is the dist function which uses the Euclidean distance.
 #'@param scale_data specifies if the data set should be scaled. The standard setting is that the data will be scaled.
@@ -69,6 +69,9 @@
 #'# Same results but with object indices
 #'czek_res<-czek_matrix(x,focal_obj=c(10,13))
 #'# we now place the two objects in a new place
+#' czek_res_neworder<-manual_reorder(czek_res,c(1:10,31,11:20,32,21:30),
+#'    orig_data=x)
+#' ## the same can be alternatively done by hand
 #'attr(czek_res,"order")<-attr(czek_res,"order")[c(1:10,31,11:20,32,21:30)]
 #'# and then correct the values of the different criteria so that they
 #'# are consistent with the new ordering
@@ -91,7 +94,7 @@
 #'The user may also choose some observations not to influence the ordering procedure.
 #'This could be useful if e.g. a single observation is meant to be assigned to a cluster
 #'and for some reason the clusters (that are to be read of from the ordering) should 
-#'not be influenced by this observatin. One can pass such observations using the
+#'not be influenced by this observation. One can pass such observations using the
 #'focal_obs parameter.
 #'A hopefully useful property is that the ordering inside the czek_matrix (and hence
 #'of the diagram when one calls plot) can be manually changed. One merely manipulates
@@ -114,7 +117,8 @@ czek_matrix <- function(x,
 
   # If not of class dist, make the data to class dist ####
 ##  if(class(x)!="dist"){
-  if(all(class(x)!="dist")){
+##  if(all(class(x)!="dist")){
+  if(!inherits(x,"dist")){
 
     # Scale data
     if(scale_data){
@@ -126,7 +130,9 @@ czek_matrix <- function(x,
 
   }
   
+  
   ## Krzysztof Bartoszek
+  ordering_method<-order
   if (!is.null(focal_obj)){
   ## by now x is a distance matrix
     x<-as.matrix(x)
@@ -140,6 +146,7 @@ czek_matrix <- function(x,
 	    v_order_nofocal<-NA
 	    x_org<-NA
 	    focal_obj<-NULL
+	    ordering_method<-"user provided ordering"
 	    warning("Parameter focal_obj spans all the objects! Treating as if no ordering was requested!")
 	}else{
 	    if (length(focal_obj)!=length(unique(focal_obj))){
@@ -166,10 +173,12 @@ czek_matrix <- function(x,
   if((all(is.numeric(order)))&&(length(order)==attr(x,"Size"))){ ##Krzysztof Bartoszek added any() and also checking for length
     #Just for conviction
     new_order<-order
+    ordering_method<-"user provided ordering"
     ##order<-NA
   }
   # If standard settings is used
-  else if (any(class(order[1])=="character")){
+##  else if (any(class(order[1])=="character")){
+  else if (inherits(order[1],"character")){
 ##    if (!.installed("seriation")) stop("Package 'seriation' needs to be installed!")
     # If standard settings is used
     if (order[1]=="ga"){
@@ -182,12 +191,14 @@ czek_matrix <- function(x,
   # If the user dont want to change the order
   else if ((is.na(order[1]))||(is.null(order[1]))) {
     new_order<-1:attr(x,"Size")
+    ordering_method<-"Identity"
     order<-NA
   } 
   ## By default do not change the order
   ##==========================================
   else {
     new_order<-1:attr(x,"Size")
+    ordering_method<-"Identity"
     order<-NA
   }
 
@@ -319,6 +330,7 @@ czek_matrix <- function(x,
   ## =================================================
   attr(czek_matrix, "Path_length")<-seriation::criterion(as.dist(x),order=seriation::ser_permutation(new_order),method="Path_length")
   attr(czek_matrix, "Um")<-Um_factor(x,order= attr(czek_matrix, "order"),inverse_um=FALSE) ## Krzysztof Bartoszek
+  ##attr(czek_matrix, "ordering_method")<-ordering_method
 
   # Add row/col names to the color matrix
   rownames(czek_matrix)<-rownames(x)

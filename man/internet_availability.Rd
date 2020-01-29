@@ -4,7 +4,7 @@
 \title{Distances between Internet availability in some counties of the Silesia Voivodeship, Poland}
 \description{
 This is a dataset that describes Internet availability in 36 counties of the Silesia Voivodeship, Poland
-to school children. It is derived from counts the number of students per comptuer with Internet
+to school children. It is derived from counts the number of students per computer with Internet
 access at various levels of school education (Warzecha 2015).}
 \usage{skulls_distances}
 \format{
