@@ -1,4 +1,4 @@
-45e799f1f86f12d9b8c4cc9357bac075 *DESCRIPTION
+028388ba6dd345ef6715f0735608bf2d *DESCRIPTION
 45c96f5482d1d2efffcf8ba47e5f56e0 *NAMESPACE
 85575b9a47f03199e10d6f3ae712c372 *R/RMaCzek.R
 8ef374181e773c95466ca195266bf71e *R/Um_factor.R
@@ -10,12 +10,12 @@ ed645041088ea5f144b12907caa607da *R/czek_matrix.R
 5f764791526c48ce7d68782245f2abde *R/utils_czek_matrix.R
 800e80da7712bd68fbf84a94d0ad9dcb *data/internet_availability.RData
 13c08b5c1ccbe574550fb8717cf6822c *data/seals_similarities.RData
-e850ad460d0fb9c50e7dcf0325ac8ab0 *data/skulls_distances.RData
+c2674ebba097c3e855cc40b9d4305e00 *data/skulls_distances.RData
 e0db11873fd5b7a8556217bf99d86012 *data/urns.RData
 1014487f22acd8317268021a929e9766 *inst/CITATION
 d32239bcb673463ab874e80d47fae504 *inst/GPL-3
 6cad8b6b1869eb684e270131cbd4349b *man/RMaCzek-internal.Rd
-5d4bad89dd089b7b1156d8f61741828f *man/RMaCzek.Rd
+c0633613cd39e7967b60ef4894fad6b8 *man/RMaCzek.Rd
 3d34d444ef7ace644b49f22b86350e88 *man/Um_factor.Rd
 138417702d78938f453da949cb031146 *man/czek_matrix.Rd
 f6b4f45fc72d566bbf54a5e5b813f1d7 *man/internet_availability.Rd
