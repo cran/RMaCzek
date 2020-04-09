@@ -1,8 +1,8 @@
-a7228a69c0d7d4317836d3259a6a1a34 *DESCRIPTION
+2735c774abec72a56a3236e37b639f65 *DESCRIPTION
 45c96f5482d1d2efffcf8ba47e5f56e0 *NAMESPACE
 85575b9a47f03199e10d6f3ae712c372 *R/RMaCzek.R
 8ef374181e773c95466ca195266bf71e *R/Um_factor.R
-ed645041088ea5f144b12907caa607da *R/czek_matrix.R
+6826acdbb27aea45dd0b7acd981e14f9 *R/czek_matrix.R
 233bbd9be45bdf8ab30d68fced3d815c *R/dot_functions.R
 1f6d9268dee1c6edcc0e83d3eecb5931 *R/plot.czek_matrix.R
 8a22c14c189b479ad6ef7a612ecb015f *R/register_seriate_ga.R
@@ -15,9 +15,9 @@ e0db11873fd5b7a8556217bf99d86012 *data/urns.RData
 1014487f22acd8317268021a929e9766 *inst/CITATION
 d32239bcb673463ab874e80d47fae504 *inst/GPL-3
 6cad8b6b1869eb684e270131cbd4349b *man/RMaCzek-internal.Rd
-4cdc29ba516cb3e6cdb3ec33f992ff70 *man/RMaCzek.Rd
+7a7b211ab2ce004cfbbeea30dbbb918b *man/RMaCzek.Rd
 3d34d444ef7ace644b49f22b86350e88 *man/Um_factor.Rd
-138417702d78938f453da949cb031146 *man/czek_matrix.Rd
+ede350bcb67a58355fefecc0bb756f81 *man/czek_matrix.Rd
 f6b4f45fc72d566bbf54a5e5b813f1d7 *man/internet_availability.Rd
 a939efd65d5c28006868a88afe5109e6 *man/manual_reorder.Rd
 01fc884bccba899fe5b3cf5ddb079a27 *man/plot.czek_matrix.Rd

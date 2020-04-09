@@ -5,12 +5,13 @@
 #'@param n_classes specifies how many classes the distances should be divided into. The standard setting is 5 classes.
 #'@param interval_breaks specifies the partition boundaries for the distances. As a standard setting, each class represents an equal amount of distances. If the interval, breaks are positive and sum up to 1, then it is assumed that they specify percentages of the distances in each interval. Otherwise if provided as a numeric vector not summing up to 1, they specify the exact boundaries for the symbols representing distance groups.
 #'@param monitor specifies if the distribution of the distances should be visualized. The standard setting is that the distribution will not be visualized. TRUE and "cumulativ_plot" is available.
-#'@param distfun specifies which distance function should be used. Standard setting is the dist function which uses the Euclidean distance.
+#'@param distfun specifies which distance function should be used. Standard setting is the dist function which uses the Euclidean distance. The first argument of the function has to be the matrix or data frame containing the data.
 #'@param scale_data specifies if the data set should be scaled. The standard setting is that the data will be scaled.
 #'@param focal_obj Numbers or names of objects (rows if x is a dataset and not 'dist' object) that are not to take part in the reordering procedure. These observations will be placed as last rows and columns of the output matrix. See Details.
 #'@param as_dist If TRUE, then the distance matrix of x is returned, with object ordering, instead of the matrix with the levels assigned in place of the original distances. 
 #'@param original_diagram If TRUE, then the returned matrix corresponds as close as possible to the original method proposed by Czekanowski (1909). The levels are column specific and not matrix specific. See Details
 #'@param column_order_stat_grouping If original_diagram is TRUE, then here one can pass the partition boundaries for the ranking in each column.
+#'@params dist_args specifies further parameters that can be passed on to the distance function.
 #'@param ... specifies further parameters that can be passed on to the seriate function in the seriation package.
 #'@export
 #'@return The function returns a matrix with class czek_matrix. The return from the function is expected to be passed to the plot function. If as_dist is passed as TRUE, then a czek_matrix_dist object is returned and this is not suitable for the plotting. As an attribute of the output the optimized criterion value is returned. However, this is a guess based on seriation::seriate()'s and seriation::criterion()'s manuals. If something else was optimized, e.g. due to user's parameters, then this will be wrong. If unable to guess, then NA saved in the attribute.
@@ -113,6 +114,7 @@ czek_matrix <- function(x,
                         as_dist=FALSE,
                         original_diagram=FALSE,
                         column_order_stat_grouping=NULL,
+                        dist_args = list(),
                         ...){
 
   # If not of class dist, make the data to class dist ####
@@ -126,7 +128,8 @@ czek_matrix <- function(x,
     }
 
     # Calculate a distance matrix
-    x<-distfun(x)
+    x<-do.call(distfun, c(list(x), dist_args))
+    #x<-distfun(x,...)
 
   }
   

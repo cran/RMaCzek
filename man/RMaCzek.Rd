@@ -17,8 +17,8 @@ bugs to Krzysztof Bartoszek at krzbar@protonmail.ch .
 \tabular{ll}{
 Package: \tab RMaCzek\cr
 Type: \tab Package\cr
-Version: \tab 1.3.2\cr
-Date: \tab 2020-03-02\cr
+Version: \tab 1.3.3\cr
+Date: \tab 2020-04-09\cr
 License: \tab GPL-3\cr
 LazyLoad: \tab yes\cr
 }

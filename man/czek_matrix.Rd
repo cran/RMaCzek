@@ -4,8 +4,8 @@
 \usage{
 czek_matrix(x, order = "OLO", n_classes = 5, interval_breaks = NULL,
   monitor = FALSE, distfun = dist, scale_data = TRUE, focal_obj=NULL,
-  as_dist=FALSE, original_diagram=FALSE, column_order_stat_grouping=NULL
-  , ...)
+  as_dist=FALSE, original_diagram=FALSE, column_order_stat_grouping=NULL, 
+  dist_args=list(), ...)
 }
 \arguments{
 \item{x}{a numeric matrix, data frame or a 'dist' object.}
@@ -18,7 +18,7 @@ czek_matrix(x, order = "OLO", n_classes = 5, interval_breaks = NULL,
 
 \item{monitor}{specifies if the distribution of the distances should be visualized. The standard setting is that the distribution will not be visualized. TRUE and "cumulativ_plot" is available.}
 
-\item{distfun}{specifies which distance function should be used. Standard setting is the dist function which uses the Euclidean distance.}
+\item{distfun}{specifies which distance function should be used. Standard setting is the dist function which uses the Euclidean distance.  The first argument of the function has to be the matrix or data frame containing the data.}
 
 \item{scale_data}{specifies if the data set should be scaled. The standard setting is that the data will be scaled.}
 
@@ -29,6 +29,8 @@ czek_matrix(x, order = "OLO", n_classes = 5, interval_breaks = NULL,
 \item{original_diagram}{if TRUE, then the returned matrix corresponds as close as possible to the original method proposed by Czekanowski (1909). The levels are column specific and not matrix specific. See Details.}
 
 \item{column_order_stat_grouping}{if original_diagram is TRUE, then here one can pass the partition boundaries for the ranking in each column.}
+
+\item{dist_args}{specifies further parameters that can be passed on to the distance function.}
 
 \item{...}{specifies further parameters that can be passed on to the seriate function in the seriation package.}
 }
