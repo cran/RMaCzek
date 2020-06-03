@@ -13,9 +13,6 @@ S3method(manual_reorder, dist)
 # exported functions
 export(czek_matrix,manual_reorder,plot.czek_matrix,print.czek_matrix,print.czek_matrix_dist,Um_factor)
 
-# exported classes
-exportClasses("czek_matrix","czek_matrix_dist")
-
 # Import all packages listed as Imports or Depends
 importFrom(GA, ga, gaControl)
 importFrom(graphics, axis, barplot, box, legend, par, plot)
