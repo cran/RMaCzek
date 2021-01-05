@@ -19,7 +19,7 @@ be filled in, e.g. 100.
 The similarity matrix is taken from Soltysiak (2000).
 }
 \references{
-Soltysiak, A. (2000);
+A. Soltysiak (2000).
 "Przedstawienie Boga-Weza na pieczeciach cylindrycznych z okresu
 akadyjskiego: analiza ikonograficzna." Studia i Materialy Archeologiczne, 10, 189-214.
 (Depiction of the Serpent God on cylinder seals from the Akkadian era: and iconographic

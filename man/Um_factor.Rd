@@ -26,7 +26,12 @@ The function calculates the Um factor associated with an ordering of the rows an
 }
 
 \references{
-A Soltysiak and P. Jaskulski (1999). 
+K. Bartoszek and A. Vasterlund (2020).
+"Old Techniques for New Times": the RMaCzek package
+for producing Czekanowski's diagrams.
+Biometrical Letters 57(2):89-118.
+
+A. Soltysiak and P. Jaskulski (1999). 
 Czekanowski's diagram. a method of multidimensional clustering. 
 New Techniques for Old Times. CAA 98. Computer Applications and
 Quantitative Methods in Archaeology. Proceedings of the 26th Conference, Barcelona,

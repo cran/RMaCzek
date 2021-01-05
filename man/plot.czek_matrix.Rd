@@ -39,18 +39,23 @@ Maintainer: Krzysztof Bartoszek <krzbar@protonmail.ch>
 }
 
 \references{
-J. Czekanowski. (1909).
+K. Bartoszek and A. Vasterlund (2020).
+"Old Techniques for New Times": the RMaCzek package
+for producing Czekanowski's diagrams.
+Biometrical Letters 57(2):89-118.
+
+J. Czekanowski (1909).
 Zur Differentialdiagnose der Neandertalgruppe.
 Korespondentblatt der Deutschen Gesellschaft fur Anthropologie, 
 Ethnologie und Urgeschichte, XL(6/7):44-47,
 
-A Soltysiak and P. Jaskulski (1999). 
+A. Soltysiak and P. Jaskulski (1999). 
 Czekanowski's diagram. a method of multidimensional clustering. 
 New Techniques for Old Times. CAA 98. Computer Applications and
 Quantitative Methods in Archaeology. Proceedings of the 26th Conference, Barcelona,
 March 1998, number 757 in BAR International Series, pages 175-184, Oxford.
  
-Vasterlund, A. (2019). 
+A. Vasterlund (2019). 
 Czekanowski's Diagram: Implementing and exploring Czekanowski's Diagram with different seriation methods
 Master thesis, Linkoping University
 }

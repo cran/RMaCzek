@@ -26,12 +26,12 @@ The distance matrix is taken from Czekanowski (1909), while the original
 skull measurements can be found in Stolyhwa (1908).
 }
 \references{
-Czekanowski, J. (1909); 
+J. Czekanowski (1909).
 Zur Differentialdiagnose der Neandertalgruppe. 
 In: Korespondentblatt der Deutschen Gesellschaft fur Anthropologie, Ethnologie und Urgeschichte, 
 XL(6/7), 44--47.
 
-Stolyhwa, K. (1908); 
+K. Stolyhwa (1908).
 Czaszka z Nowosiolki jako dowod istnienia w okresie historycznym ksztaltow pokrewnych z Homo primigenius.
 In: Rozprawy Wydzialu matematyczno--przyrodnicznego Akademii Umiejetnosci, 
 XLVIII(B), 1--27. (The skull from Nowosiolka as proof of existence during the era of history shapes common 

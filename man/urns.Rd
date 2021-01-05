@@ -22,7 +22,7 @@ three indices describing proportions of the vessel (W-A, W-B, W-D).
 The matrix is taken from Soltysiak and Jaskulski (1999).
 }
 \references{
-Soltysiak, A. and Jaskulski, P. (1999);
+A. Soltysiak and P. Jaskulski (1999).
 "Czekanowski's Diagram. A Method of Multidimensional Clustering." 
 New Techniques for Old Times. CAA 98. Computer Applications and Quantitative Methods in 
 Archaeology. Proceedings of the 26th Conference, Barcelona, March 1998, 
