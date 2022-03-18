@@ -1,4 +1,14 @@
-#'4@title Prints information concerning Czekanowski's Diagram
+## This file is part of RMaCzek
+
+## This software comes AS IS in the hope that it will be useful WITHOUT ANY WARRANTY, 
+## NOT even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+## Please understand that there may still be bugs and errors. Use it at your own risk. 
+## We take no responsibility for any errors or omissions in this package or for any misfortune 
+## that may befall you or others as a result of its use. Please send comments and report 
+## bugs to Krzysztof Bartoszek at krzbar@protonmail.ch .
+
+
+#'@title Prints information concerning Czekanowski's Diagram
 #'@description This is a function that prints out information on a Czekanowski's Diagram.
 #'@param x  a matrix with class czek_matrix.
 #'@param print_raw logical, if TRUE print out raw, as if base::print() was called, in particular this prints out the matrix itself, if FALSE (default) print out a summary. Furthermore, with print_raw=TRUE the attributes "levels", "partition_boundaries" and "n_classes" defining the diagram will be printed out.

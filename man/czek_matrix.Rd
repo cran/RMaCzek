@@ -111,7 +111,7 @@ czek_matrix(stats::dist(scale(x)))
 ## but they take too long to run
 \donttest{
 # Change seriation method ############
-#seriation::show_seriation_methods("dist")
+#seriation::list_seriation_method()$dist
 czek_matrix(x,order = "GW")
 czek_matrix(x,order = "ga")
 czek_matrix(x,order = sample(1:nrow(x)))

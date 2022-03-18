@@ -1,3 +1,13 @@
+## This file is part of RMaCzek
+
+## This software comes AS IS in the hope that it will be useful WITHOUT ANY WARRANTY, 
+## NOT even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+## Please understand that there may still be bugs and errors. Use it at your own risk. 
+## We take no responsibility for any errors or omissions in this package or for any misfortune 
+## that may befall you or others as a result of its use. Please send comments and report 
+## bugs to Krzysztof Bartoszek at krzbar@protonmail.ch .
+
+
 ## Krzysztof Bartoszek documentation and made non-hidden
 #'@title Calculate the Um factor
 #'@description The function calculates the Um factor associated with an ordering of the rows and columns of a distance matrix. Lower values indicate a better grouping of similar objects. This was the original objective function proposed in the MaCzek program for producing Czekanowski's Diagram.

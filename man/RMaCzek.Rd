@@ -17,8 +17,8 @@ bugs to Krzysztof Bartoszek at krzbar@protonmail.ch .
 \tabular{ll}{
 Package: \tab RMaCzek\cr
 Type: \tab Package\cr
-Version: \tab 1.3.5\cr
-Date: \tab 2021-01-05\cr
+Version: \tab 1.4\cr
+Date: \tab 2022-03-18\cr
 License: \tab GPL-3\cr
 LazyLoad: \tab yes\cr
 }
@@ -34,6 +34,8 @@ This package produces Czekanowski's diagram.
 
 \author{
 Albin Vasterlund
+
+Piotr Jaskulski
 
 Maintainer: Krzysztof Bartoszek <krzbar@protonmail.ch>
 }
