@@ -9,222 +9,168 @@
 
 
 #'@title Produce a Czekanowski's Diagram
-#'@description This is a function that can produce a Czekanowski's Diagram.
+#'@description This is a function that can produce a Czekanowski's Diagram and present clustering findings.
 #'@param x  a matrix with class czek_matrix.
 #'@param type specifies if the graph should use color or symbols. The standard setting is symbols.
 #'@param values specifies the color or the size of the symbols in the graph. The standard setting is a grey scale for a color graph and a vector with the values 2,1,0.5,0.25 and 0 for a graph with symbols.
-#'@param plot_pch specifies which symbols the graph should use. The standard setting is 19, which is a black circle.
-#'@param plot_cex specifies the size of the cells in a color graph. The standard setting is 1.5.
-#'@param label.cex specifies the size of the labels for the objects. The standard setting is 0.6.
 #'@param plot_title specifies the main title in the graph.
-#'@param legend specifies if a legend should be included or not. The standard setting is that the legend will not be included.
-#'@param axis specifies if the labels for the objects should be included. The standard setting is that the labels are included.
+#'@param tl.cex  Numeric, for the size of text label.
+#'@param tl.offset Numeric, for text label.
+#'@param tl.srt Numeric, for text label, string rotation in degrees.
+#'@param pal The colour vector representing the clusters.
+#'@param alpha  Factor modifying the opacity, alpha, typically in [0,1].
+#'@param ps_power A power value to adjust point size.
+#'@param col_size When type="col", the size of each point (maximum is 1).
+#'@param cex.main Specify the size of the title text.
 #'@param ... specifies further parameters that can be passed on to the plot function.
 #'@export
 #'@examples
 #'# Set data ####
-#'x<-czek_matrix(mtcars)
-#'
+#'# Not Cluster
+#'czek = czek_matrix(mtcars)
+#'# Exact Clustering
+#'czek_exact = czek_matrix(mtcars, order = "GW", cluster = TRUE, num_cluster = 2, min.size = 2)
+#'# Fuzzy Clustering
+#'czek_fuzzy = czek_matrix(mtcars, order = "OLO", cluster = TRUE, num_cluster = 2,
+#'cluster_type = "fuzzy", min.size = 2, scale_bandwidth = 0.2)
 #'
 #'# Standard plot ############
-#'plot(x)
-#'plot.czek_matrix(x)
+#'plot(czek_exact)
+#'plot.czek_matrix(czek_fuzzy)
 #'
+#'# Edit diagram title
+#'plot(czek, plot_title = "mtcars", cex.main = 2)
 #'
-#'# Specify values ############
-#'plot(x,values=c(1.5,1,0.75,0.25,0 ))
-#'plot(x,values=grDevices::colorRampPalette(c("black","red","white"))(5))
+#'# Change point size ############
+#'# Specify values
+#'plot(czek, values = c(1, 0.8, 0.5, 0.2, 0))
+#'plot(czek, values = grDevices::colorRampPalette(c("black", "red", "white"))(5))
 #'
+#'# set point size for 'symbols' type by setting power value
+#'plot(czek, type = "symbols", ps_power = 1)
+#'
+#'# set point size for 'col' type
+#'plot(czek, type = "col", col_size = 0.6)
 #'
 #'# Specify type ############
-#'plot(x,type = "symbols")
-#'plot(x,type = "col")
+#'plot(czek, type = "symbols")
+#'plot(czek, type = "col")
 #'
+#'# Edit cluster ############
+#'# Edit colors
+#'plot(czek_exact, pal = c("red", "blue"))
+#'# Edit opacity
+#'plot(czek_exact, alpha = 0.5)
 #'
-#'# Specify plot_pch ############
-#'plot(x,plot_pch = 15)
-#'
-#'
-#'# Specify plot_cex ############
-#'plot(x,type="col",plot_cex = 1)
-#'
-#'
-#'# Specify plot_cex ############
-#'plot(x,label.cex = 0.45)
-#'
-#'
-#'# Specify the main title ############
-#'plot(x,plot_title = "Czekanowski's Diagram of mtcars")
-#'
-#'
-#'# Add legend ############
-#'plot(x,legend = TRUE)
-#'
-#'
-#'# Remove axis name ############
-#'plot(x,axis = FALSE)
-#'
-#'
-#'# Change additional settings to the plot function ############
-#'plot(x,col.main="blue",font.main=9,cex.main=2)
+plot.czek_matrix = function(x, values = NULL, type = "symbols", plot_title = "Czekanowski's diagram",
+                            tl.cex = 1, tl.offset = 0.4, tl.srt = 90,
+                            pal = brewer.pal(n = 8, name = "Dark2"), alpha = 0.3, ps_power = 0.6,
+                            col_size = 1, cex.main = 1, ...){
 
+  oldpar = par(mar = c(0, 0, 4, 0))
+  on.exit(par(oldpar))
 
-plot.czek_matrix<-function(x,
-                           values=NULL,
-                           type="symbols",
-                           #size=NULL,
-                           plot_pch = NULL,
-                           plot_cex = 1.5,
-                           label.cex = 0.6,
-                           plot_title="Czekanowski's diagram",
-                           legend=FALSE,
-                           axis=TRUE,
-                           ...){
+  n_classes <- attr(x, "n_classes")
+  levels <- attr(x, "levels")
+  partition_boundaries <- attr(x, "partition_boundaries")
+  new_order <- attr(x, "order")
+  cluster <- attr(x, "cluster")
+  cluster_boundary <- attr(x, "cluster_boundary")
+  names = colnames(x)[new_order]
+  x <- x[new_order, new_order]
 
-
-  old_par <- par(no.readonly =TRUE) 
-  on.exit(par(old_par))
-  
-  
-  # Save the information from x
-  n_classes<-attr(x,"n_classes")
-  levels<-attr(x,"levels")
-  partition_boundaries<-attr(x,"partition_boundaries")
-  new_order<-attr(x,"order")
-
-  # Arrange the observations
-  x<-x[new_order,new_order]
-
-
-
-  # Change values inside czek_matrix ####
-  if(class(values)%in%c("numeric","character") &
-     length(values)==n_classes){
-    values<-values
-  }
-  else if (type=="symbols"){
-    values<-rep(0,n_classes)
-    values[1]<-2
-    for(i in 2:(n_classes-1)){
-      values[i]<-values[i-1]/2
+  if (class(values) %in% c("numeric", "character") & length(values) == n_classes) {
+    values <- values
+  }else if (type == "symbols") {
+    values <- rep(0, n_classes)
+    values[1] <- 1
+    for (i in 2:(n_classes - 1)) {
+      values[i] <- values[i - 1]/2
     }
-    values[n_classes]<-0
+    values[n_classes] <- 0
+  }else if (type == "col") {
+    values <- round(seq(0, 100, length.out = n_classes))
+    values <- paste("gray", values, sep = "")
+  }else stop("type should be either 'col' or 'symbols'")
 
-  }
-  else if(type=="col") {
-    values<-round(seq(0,100,length.out = n_classes))
-    values<-paste("gray",values,sep="")
-  }
-  else
-    stop("type should be either 'col' or 'symbols'")
+  n <- nrow(x)
+  plot_values <- values[x]
+  plot_y <- rep(n:1, n)
+  plot_x <- rep(1:n, rep(n, n))
 
+  graphics::plot.new()
+  xlabwidth = max(graphics::strwidth(names, cex = tl.cex))
+  ylabwidth = max(graphics::strwidth(names, cex = tl.cex))
+  laboffset = graphics::strwidth("W", cex = tl.cex)
 
-  plot_values<- values[x]
+  for (i in 1:50) {
+    xlim = c(1 - 0.5 - laboffset - xlabwidth,
+             n + 0.5 + xlabwidth * abs(cos(tl.srt * pi/180)))
+    ylim = c(0 - 0.5 - laboffset - ylabwidth * abs(sin(tl.srt * pi/180)) - tl.offset,
+             n + 0.5 + laboffset)
 
+    graphics::plot.window(xlim, ylim, asp = 1, xaxs = "i", yaxs = "i")
 
-
-  # Initial settings ####
-  # Calc dim of the plot
-  n<-nrow(x)
-  p<-n
-
-  # Make data points to plot
-  plot_y <- rep(n:1, p)
-  plot_x <- rep(1:p, rep(n, p))
-
-
-  # Add marginals for the legend
-  if(legend){
-    old_mar=par("mar")
-    old_xpd=par("xpd")
-
-    par(mar=c(5.1, 4.1, 4.1, 8.1), xpd=T)
-  }
-
-
-  # Make a color plot ####
-  if(is.character(plot_values)){
-
-    if(is.null(plot_pch)){
-      plot_pch<-15
+    x.tmp = max(graphics::strwidth(names, cex = tl.cex))
+    y.tmp = max(graphics::strwidth(names, cex = tl.cex))
+    laboffset.tmp = graphics::strwidth("W", cex = tl.cex) * tl.offset
+    if (max(x.tmp - xlabwidth, y.tmp - ylabwidth, laboffset.tmp - laboffset) < 0.001) {
+      break
     }
-
-    legend_cex<-1.5
-    legend_col<-values
-
-    plot_cex<-plot_cex
-    plot_col<-plot_values
-  }
-
-
-
-  # Make a dot plot ####
-  else if(is.numeric(plot_values)){
-
-
-    if(is.null(plot_pch)){
-      plot_pch<-19
+    xlabwidth = x.tmp
+    ylabwidth = y.tmp
+    laboffset = laboffset.tmp
+    if (i == 50) {
+      warning(c("Not been able to calculate text margin, ",
+                "please try again with a clean new empty window using ",
+                "{plot.new(); dev.off()} or reduce tl.cex"))
     }
-
-
-    legend_cex<-values
-    legend_col<-"black"
-
-
-    plot_cex<-plot_values
-    plot_col<-"black"
   }
 
-
-
-
-  graphics::plot(plot_x, plot_y,
-       col=plot_col,
-       cex = plot_cex,
-       pch = plot_pch,
-       axes = FALSE,
-       xlab = "",
-       ylab = "",
-       xlim = c(0.5, p + 0.5),
-       ylim = c(0.5, n + 0.5),
-       main = plot_title,...)
-
-
-
-  # Adjust the plot ####
-
-  # Col/row names in plot
-  dlabels<-colnames(x)
-  rlabels <- colnames(x)
-
-
-  if(axis==TRUE){
-    # Add col/row names to the plot
-    graphics::axis(2, at = n:1, tick = FALSE, labels = rlabels, las = 1,
-         cex.axis = label.cex)
-
-    graphics::axis(1, at = 1:n, tick = FALSE, labels = dlabels, las = 2,
-         cex.axis = label.cex)
+  if (.Platform$OS.type == "windows") {
+    grDevices::windows.options(width = 7, height = 7 * diff(ylim)/diff(xlim))
   }
 
-  # Add lines around the plot
-  graphics::box(col = "black")
+  plot_y <- rep(n:1, n)
+  plot_x <- rep(1:n, rep(n, n))
 
+  if (is.character(plot_values)) {
+    graphics::symbols(plot_x, plot_y, add = TRUE, inches = FALSE, squares = rep(col_size, length(plot_x)), fg = plot_values, bg = plot_values)
+  }else if (is.numeric(plot_values)) {
+    graphics::symbols(plot_x, plot_y, add = TRUE, inches = FALSE, circles = plot_values^ps_power/2, bg = "black")
 
-  # Fix the legend
-  if(legend){
-    graphics::legend("topright",
-           inset=c(-0.4,0.2),
-           legend=levels,
-           pch=plot_pch,
-           title="Distance partition \n boundaries",
-           pt.cex=legend_cex,
-           cex=0.6,
-           box.lwd = 0,
-           box.col = "white",
-           col=legend_col)
-
-    # Set back the settings for par
-    graphics::par(mar=old_mar,xpd=old_xpd)
+    # hide the zero points
+    ind.p = which(plot_values == 0)
+    if(length(ind.p) != 0){
+      graphics::symbols(plot_x[ind.p], plot_y[ind.p],
+              inches = FALSE, squares = rep(1, length(plot_x[ind.p])), fg = "white", bg = "white", add = TRUE)
+    }
   }
+
+  graphics::rect(0.5, 0.5, n + 0.5, n + 0.5, border = "black")
+
+  cex = seq(0.7, 1, by = 0.1)
+  height = sapply(cex, function(cex) graphics::strheight("A", cex = cex)) * n
+  short_aes = min(diff(xlim), diff(ylim))
+  tl.cex = cex[which.min(abs(height - short_aes))]
+
+  # x and y labels
+  graphics::axis(1, at = 1:n, tick = FALSE, labels = names, las = 2, cex.axis = tl.cex, pos = tl.offset)
+  graphics::axis(2, at = n:1, tick = FALSE, labels = names, las = 1, cex.axis = tl.cex, pos = tl.offset)
+
+  graphics::title(main = plot_title, cex.main = cex.main)
+
+  if(!is.null(cluster)){
+    num_cluster = nrow(cluster_boundary)
+    for (i in 1:num_cluster) {
+      # rect(cluster_boundary[i,1], cluster_boundary[i,2], cluster_boundary[i,3],cluster_boundary[i,4], col= adjustcolor(pal[i], alpha.f = alpha), border = FALSE)
+      graphics::rect(cluster_boundary[i,1], cluster_boundary[i,2], cluster_boundary[i,3],cluster_boundary[i,4], col= grDevices::adjustcolor(pal[i], alpha.f = alpha), border = FALSE)
+    }
+  }
+
+  # for(i in 1:n){
+  #   # symbols(i, n-i+1, add = TRUE, inches = FALSE, circles = 0.5, bg = col[4-true_label[i]], fg = col[4-true_label[i]])
+  #   symbols(i, n-i+1, inches = FALSE, squares = 1, fg = col[4-true_label[i]], bg = col[4-true_label[i]], add = TRUE)
+  # }
 }
+
