@@ -3,6 +3,7 @@
 \docType{package}
 \name{RMaCzek}
 \alias{RMaCzek}
+\alias{RMaCzek-package}
 \title{RMaCzek: A package that can produce Czekanowski's diagram}
 \description{
 This package produces Czekanowski's diagram

@@ -24,5 +24,6 @@
 #'
 #' @name RMaCzek
 #' @docType package
+#' @aliases RMaCzek-package
 #' @author Albin Vasterlund, Krzysztof Bartoszek, Ying Luo
 NULL

@@ -1,21 +1,48 @@
-citHeader("To cite the pcmabc package in publications use:")
+bibentry(
+  bibtype = "Article",
+  textVersion = "Bartoszek K., Vasterlund A., 'Old Techniques for New Times': the RMaCzek package, Biomet. Let., 2020, 2, 89-118",
+  header = "To cite RMaCzek in publications, please use",
+  author = "K. Bartoszek and A. Vasterlund",
+  title = "'Old Techniques for New Times': the RMaCzek package for producing Czekanowski’s diagrams",
+  journal = "Biometrical Letters",
+  year = "2020",
+  volume = "57",
+  issue = "2", 
+  pages = "89–118",
+  doi = "10.2478/bile-2020-0008"
+)
 
-citEntry(
-         entry="MastersThesis",
-         author=personList(
-           as.person("Albin Vasterlund")
-           ),
-         title="Czekanowski's Diagram: Implementing and exploring Czekanowski's Diagram with different seriation methods",
-         school="Linkoping University",
-         address="Sweden",
-	 year = 2019,
-         textVersion=paste(
-         "Vasterlund, A. (2019)",
-	 "Czekanowski's Diagram: Implementing and exploring Czekanowski's Diagram with different seriation methods",
-	 "Master thesis", "Linkoping University, Sweden"
-           )
-         )
 
-citFooter("As RMaCzek is continually evolving, you may want to cite its version number. Find it with 'help(package=RMaCzek)'.")
+bibentry(
+  bibtype = "mastersthesis",
+  textVersion = "Vasterlund A., Czekanowski's Diagram: Implementing and exploring Czekanowski's Diagram with different seriation methods, 2019, MSc thesis, Division for Statistics and Machine Learning, Department of Computer and Information Science, Linkoping University",
+  author = "A. Vasterlund",
+  title = "Czekanowski's Diagram: Implementing and exploring Czekanowski's Diagram with different seriation methods",
+  school = "Division for Statistics and Machine Learning, Department of Computer and Information Science, Linkoping University, Sweden",
+  year= "2019" 
+)
 
+bibentry(
+  bibtype = "mastersthesis",
+  textVersion = "Luo Y., Czekanowski's Clustering: Development of Visualization Possibilities of the RMaCzek Package, 2022, MSc thesis, Division for Statistics and Machine Learning, Department of Computer and Information Science, Linkoping University",
+  author = "Y. Luo",
+  title = "Czekanowski's Clustering: Development of Visualization Possibilities of the RMaCzek Package",
+  school = "Division for Statistics and Machine Learning, Department of Computer and Information Science, Linkoping University, Sweden",
+  year= "2022",
+  url = "http://urn.kb.se/resolve?urn=urn:nbn:se:liu:diva-182576"
+)
+
+
+bibentry(
+  bibtype = "Article",
+  textVersion = "Bartoszek K., Revisiting the Nowosiolka skull with RMaCzek, Mathematica Applicanda, 2022, 50(2), 255-266",
+  author = "K. Bartoszek",
+  title = "Revisiting the Nowosiolka skull with RMaCzek",
+  journal = "Mathematica Applicanda (Matematyka Stosowana)",
+  year = "2022",
+  volume = "50",
+  issue = "2", 
+  pages = "255–266",
+  doi = "10.14708/ma.v50i2.7164"
+)
 

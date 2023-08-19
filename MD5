@@ -1,7 +1,7 @@
-9f2197dc15eb545d88b88ee06d13a5c2 *DESCRIPTION
+fe2991874e4b03e989cf15ad20781811 *DESCRIPTION
 d32239bcb673463ab874e80d47fae504 *GPL-3
 625f0a0d67d8993685b4a81fe0ae1084 *NAMESPACE
-9ba41f06815f181dded56d20f4c21bcf *R/RMaCzek.R
+1e84fee4f2f899255579e540d29d4bc2 *R/RMaCzek.R
 d88554ed26ac9a4a71a0019ec8ffed8f *R/Um_factor.R
 b52464cc56ec558bf3908245d959a395 *R/cluster_distance.R
 2e44849bc53bd738de74efac10f7c637 *R/czek_matrix.R
@@ -16,13 +16,13 @@ aa50efcde4c1812cbdf5ec9f4158fcdc *R/seriate_ga.R
 13c08b5c1ccbe574550fb8717cf6822c *data/seals_similarities.RData
 c7b85ff704dab47ffecda1ec6b25e83c *data/skulls_distances.RData
 e0db11873fd5b7a8556217bf99d86012 *data/urns.RData
-1014487f22acd8317268021a929e9766 *inst/CITATION
+a57052cc7823d44ae8df8aea16cd1ed7 *inst/CITATION
 d32239bcb673463ab874e80d47fae504 *inst/GPL-3
 dcafa22089709727ee11e5dc0de58b95 *inst/extdata/Rdata.rdb
 71d22c1807ca8ebe7515c6ff9cd860ed *inst/extdata/Rdata.rds
 903dd8b5ae741698a62b26f8466fb0e1 *inst/extdata/Rdata.rdx
 3ae89023b4def1bcbd27af3a7b4fdc7e *inst/extdata/slabosz.mdt
-a650ebf3a5c6277930769a4551bd32b5 *man/RMaCzek.Rd
+9e72fc755d52518a8b3b64197b8b2a96 *man/RMaCzek.Rd
 b90ad96d29f2a66a8d88e73f482caf17 *man/Um_factor.Rd
 02dc7f047a9afc59d942721cc531a3ac *man/cluster_dist.Rd
 24e6db553a2dd2ec8d8ab149b0aefcca *man/czek_matrix.Rd

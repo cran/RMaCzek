@@ -1,8 +1,8 @@
 Package: RMaCzek
 Type: Package
 Title: Czekanowski's Diagrams
-Version: 1.5.0
-Date: 2022-09-26
+Version: 1.5.1
+Date: 2023-08-19
 Encoding: UTF-8
 Authors@R: c(person(family = "Vasterlund", given = "Albin", email = "abbe--93@hotmail.com", role = c("aut")),
   	person(family = "Bartoszek", given = "Krzysztof", email = "krzbar@protonmail.ch", role = c("cre","aut","ths")),
@@ -20,11 +20,10 @@ Collate: czek_matrix.R dot_functions.R plot.czek_matrix.R
 LazyLoad: yes
 LazyData: true
 NeedsCompilation: no
-Repository: CRAN
-Packaged: 2022-09-30 21:51:12 UTC; kbart
+Packaged: 2023-08-19 16:27:07 UTC; kbart
 Author: Albin Vasterlund [aut],
   Krzysztof Bartoszek [cre, aut, ths],
   Ying Luo [aut],
   Piotr Jaskulski [ctb]
-Date/Publication: 2022-09-30 22:10:02 UTC
-RoxygenNote: 7.1.2
+Repository: CRAN
+Date/Publication: 2023-08-19 16:52:32 UTC
