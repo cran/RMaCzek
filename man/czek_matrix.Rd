@@ -23,6 +23,10 @@ czek_matrix(
   sig.lvl = 0.05,
   scale_bandwidth = 0.05,
   min.size = 30,
+  eps = 0.01,
+  pts = c(1, 5),
+  alpha = 0.2,
+  theta = 0.9,
   ...
 )
 }
@@ -62,6 +66,14 @@ czek_matrix(
 \item{scale_bandwidth}{A ratio to control the width of the reaching range.}
 
 \item{min.size}{Minimum number of observations between change points.}
+
+\item{eps}{A vector of epsilon values for FDBScan.}
+
+\item{pts}{A vector of minimum points for FDBScan.}
+
+\item{alpha}{The weighting factor for density score adjustments.}
+
+\item{theta}{The weighting factor for density score adjustments.}
 
 \item{...}{Further parameters that can be passed on to the seriate function in the seriation package.}
 }

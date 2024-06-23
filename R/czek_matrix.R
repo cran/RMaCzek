@@ -29,6 +29,10 @@
 #' @param sig.lvl The threshold for testing a change point is statistically significant. This value is passed to ecp::e.divisive().
 #' @param min.size Minimum number of observations between change points.
 #' @param ... Further parameters that can be passed on to the seriate function in the seriation package.
+#' @param eps  A vector of epsilon values for FDBScan.
+#' @param pts A vector of minimum points for FDBScan.
+#' @param alpha  The weighting factor for density score adjustments.
+#' @param theta The weighting factor for density score adjustments.
 #' @return The function returns a matrix with class czek_matrix. The returned object is expected to be passed to the plot function if as_dist is FALSE. If as_dist is passed as TRUE, then a czek_matrix object is returned that is not suitable for plotting. As an attribute of the output the optimized criterion value is returned. However, this is a guess based on seriation::seriate()'s and seriation::criterion()'s manuals. If something else was optimized, e.g. due to user's parameters, then this will be wrong. If unable to guess, then NA saved in the attribute.
 #' @export
 #' @examples
@@ -125,8 +129,9 @@
 czek_matrix = function (x, order = "OLO", n_classes = 5, interval_breaks = NULL,
                         monitor = FALSE, distfun = dist, scale_data = TRUE, focal_obj = NULL,
                         as_dist = FALSE, original_diagram = FALSE, column_order_stat_grouping = NULL,
-                        dist_args = list(), cluster = FALSE, cluster_type = "exact",
-                        num_cluster = 3, sig.lvl = 0.05, scale_bandwidth = 0.05, min.size = 30, ...)
+                        dist_args = list(), cluster = FALSE, cluster_type = "exact", 
+                        num_cluster = 3, sig.lvl = 0.05, scale_bandwidth = 0.05, min.size = 30, 
+                        eps = 0.01, pts = c(1, 5), alpha = 0.2, theta = 0.9, ...)
 {
   if (!inherits(x, "dist")) {
     if (scale_data) {
@@ -140,8 +145,9 @@ czek_matrix = function (x, order = "OLO", n_classes = 5, interval_breaks = NULL,
     if (is.character(focal_obj)) {
       focal_obj <- which(is.element(colnames(x), focal_obj))
     }
-    if ((length(focal_obj) > 0) && (is.numeric(focal_obj)) &&
-        (min(focal_obj) > 0) && (max(focal_obj) < (ncol(x) + 1))) {
+    if ((length(focal_obj) > 0) && (is.numeric(focal_obj)) && 
+        (min(focal_obj) > 0) && (max(focal_obj) < (ncol(x) + 
+                                                   1))) {
       if (length(unique(focal_obj)) == ncol(x)) {
         order <- NA
         v_order_nofocal <- NA
@@ -202,13 +208,13 @@ czek_matrix = function (x, order = "OLO", n_classes = 5, interval_breaks = NULL,
         interval_breaks[1] <- 0
       }
       else if ("equal_width_between_classes" %in% interval_breaks) {
-        interval_breaks <- max(x[upper.tri(x)])/n_classes *
+        interval_breaks <- max(x[upper.tri(x)])/n_classes * 
           (0:n_classes)
         probs <- (stats::ecdf(x[upper.tri(x)]))(interval_breaks)
-        names(interval_breaks) <- paste(round(probs, 7) * 100, "%", sep = "")
+        names(interval_breaks) <- paste(round(probs, 
+                                              7) * 100, "%", sep = "")
       }
-      else if ((all(interval_breaks >= 0)) && (sum(interval_breaks) ==
-                                               1)) {
+      else if ((all(interval_breaks >= 0)) && (sum(interval_breaks) == 1)) {
         probs <- c(0, cumsum(interval_breaks))
         interval_breaks <- stats::quantile(x[upper.tri(x)], probs = probs, na.rm = TRUE)
         interval_breaks[1] <- 0
@@ -220,7 +226,8 @@ czek_matrix = function (x, order = "OLO", n_classes = 5, interval_breaks = NULL,
         names(interval_breaks) <- paste(round(probs, 7) * 100, "%", sep = "")
       }
       cut_the_values <- cut(x, interval_breaks, include.lowest = TRUE)
-      czek_matrix <- matrix(as.numeric(cut_the_values), ncol = ncol(x))
+      czek_matrix <- matrix(as.numeric(cut_the_values), 
+                            ncol = ncol(x))
       l_cut_the_values <- levels(cut_the_values)
     }
     else {
@@ -229,7 +236,8 @@ czek_matrix = function (x, order = "OLO", n_classes = 5, interval_breaks = NULL,
         column_order_stat_grouping <- c(3, 4, 5, 6)
         b_default_ord_grouping <- TRUE
       }
-      if (max(column_order_stat_grouping) > (ncol(x) - 1)) {
+      if (max(column_order_stat_grouping) > (ncol(x) - 
+                                             1)) {
         if (!b_default_ord_grouping) {
           warning("Provided or default order statistics grouping is not compatible with matrix size. Correcting but please consider providing a compatible one.")
         }
@@ -266,8 +274,10 @@ czek_matrix = function (x, order = "OLO", n_classes = 5, interval_breaks = NULL,
         }
         else if ((nOKgroups > 0) && (nOKgroups < 5)) {
           column_order_stat_grouping <- column_order_stat_grouping[v_OKgroups]
-          while ((max(column_order_stat_grouping) < ncol(x) - 1) && (nOKgroups < 6)) {
-            column_order_stat_grouping <- c(column_order_stat_grouping, max(column_order_stat_grouping) + 1)
+          while ((max(column_order_stat_grouping) < 
+                  ncol(x) - 1) && (nOKgroups < 6)) {
+            column_order_stat_grouping <- c(column_order_stat_grouping, 
+                                            max(column_order_stat_grouping) + 1)
             nOKgroups <- nOKgroups + 1
           }
         }
@@ -278,21 +288,25 @@ czek_matrix = function (x, order = "OLO", n_classes = 5, interval_breaks = NULL,
           stop("Something is wrong with provided order statistics groupings!")
         }
       }
-      if ((length(column_order_stat_grouping) != length(unique(column_order_stat_grouping))) ||
+      if ((length(column_order_stat_grouping) != length(unique(column_order_stat_grouping))) || 
           (!all(column_order_stat_grouping == cummax(column_order_stat_grouping)))) {
         column_order_stat_grouping <- unique(column_order_stat_grouping)
         column_order_stat_grouping <- sort(column_order_stat_grouping)
         warning("Parameter column_order_stat_grouping was not strictly increasing. Correcting but please consider supplying a strictly increasing one.")
       }
       czek_matrix <- apply(x, 2, function(x_col, column_order_stat_grouping) {
-        cut_the_values <- cut(base::rank(x_col), c(0, column_order_stat_grouping, length(x_col)), include_lowest = TRUE)
+        cut_the_values <- cut(base::rank(x_col), c(0, 
+                                                   column_order_stat_grouping, length(x_col)), 
+                              include_lowest = TRUE)
         czek_x_col <- as.numeric(cut_the_values)
         czek_x_col
       }, column_order_stat_grouping = column_order_stat_grouping)
-      cut_the_values <- cut(1:ncol(x), c(0, column_order_stat_grouping, ncol(x)), include_lowest = TRUE)
+      cut_the_values <- cut(1:ncol(x), c(0, column_order_stat_grouping, 
+                                         ncol(x)), include_lowest = TRUE)
       tmp_cut_the_values <- cut_the_values
       l_cut_the_values <- levels(cut_the_values)
-      l_cut_the_values[1] <- paste0("[1,", column_order_stat_grouping[1], "]")
+      l_cut_the_values[1] <- paste0("[1,", column_order_stat_grouping[1], 
+                                    "]")
       interval_breaks <- "Column specific, levels are the cut values of the order statistics for each column."
     }
     attr(czek_matrix, "levels") <- l_cut_the_values
@@ -306,120 +320,153 @@ czek_matrix = function (x, order = "OLO", n_classes = 5, interval_breaks = NULL,
   attr(czek_matrix, "criterion_value") <- NA
   if (!is.na(order[1])) {
     criterion_method <- NA
-    criterion_method <- switch(as.character(order[1]), ARSA = "LS",
-                               BBURCG = "Gradient_raw", BBWRCG = "Gradient_weighted",
-                               GW = "Path_length", GW_average = "Path_length",
-                               GW_complete = "Path_length", GW_single = "Path_length",
-                               GW_ward = "Path_length", HC = NA, HC_average = NA,
-                               HC_complete = NA, HC_single = NA, HC_ward = NA,
-                               Identity = NA, MDS = "Neumann_stress", MDS_angle = "Neumann_stress",
-                               MDS_metric = "Neumann_stress", MDS_nonmetric = "Neumann_stress",
-                               OLO = "Path_length", OLO_average = "Path_length",
-                               OLO_complete = "Path_length", OLO_single = "Path_length",
-                               OLO_ward = "Path_length", QAP_2SUM = "2SUM", QAP_BAR = "BAR",
-                               QAP_Inertia = "Inertia", QAP_LS = "LS", R2E = NA,
-                               Random = NA, SA = "Gradient_raw", Spectral = "2SUM",
-                               Spectral_norm = "2SUM", SPIN_NH = NA, SPIN_STS = NA,
+    criterion_method <- switch(as.character(order[1]), ARSA = "LS", 
+                               BBURCG = "Gradient_raw", BBWRCG = "Gradient_weighted", 
+                               GW = "Path_length", GW_average = "Path_length", 
+                               GW_complete = "Path_length", GW_single = "Path_length", 
+                               GW_ward = "Path_length", HC = NA, HC_average = NA, 
+                               HC_complete = NA, HC_single = NA, HC_ward = NA, 
+                               Identity = NA, MDS = "Neumann_stress", MDS_angle = "Neumann_stress", 
+                               MDS_metric = "Neumann_stress", MDS_nonmetric = "Neumann_stress", 
+                               OLO = "Path_length", OLO_average = "Path_length", 
+                               OLO_complete = "Path_length", OLO_single = "Path_length", 
+                               OLO_ward = "Path_length", QAP_2SUM = "2SUM", QAP_BAR = "BAR", 
+                               QAP_Inertia = "Inertia", QAP_LS = "LS", R2E = NA, 
+                               Random = NA, SA = "Gradient_raw", Spectral = "2SUM", 
+                               Spectral_norm = "2SUM", SPIN_NH = NA, SPIN_STS = NA, 
                                TSP = "Path_length", VAT = NA, NA)
     if (!is.na(criterion_method)) {
-      attr(czek_matrix, "criterion_value") <- seriation::criterion(as.dist(x),
-                                                                   order = seriation::ser_permutation(new_order),
+      attr(czek_matrix, "criterion_value") <- seriation::criterion(as.dist(x), 
+                                                                   order = seriation::ser_permutation(new_order), 
                                                                    method = criterion_method)
     }
   }
-  attr(czek_matrix, "Path_length") <- seriation::criterion(as.dist(x),
+  attr(czek_matrix, "Path_length") <- seriation::criterion(as.dist(x), 
                                                            order = seriation::ser_permutation(new_order), method = "Path_length")
-  attr(czek_matrix, "Um") <- Um_factor(x, order = attr(czek_matrix, "order"), inverse_um = FALSE)
+  attr(czek_matrix, "Um") <- Um_factor(x, order = attr(czek_matrix, 
+                                                       "order"), inverse_um = FALSE)
   rownames(czek_matrix) <- rownames(x)
   colnames(czek_matrix) <- colnames(x)
-
-  if(cluster){
+  if (cluster) {
     n = nrow(x)
     cluster_id = list()
-    if(as_dist == TRUE){
-      res_fuzzy = e1071::cmeans(x[new_order, new_order], num_cluster)
-    }else{
-      res_fuzzy = e1071::cmeans(czek_matrix[new_order, new_order], num_cluster)
+    if (as_dist == TRUE) {
+      res_fuzzy = e1071::cmeans(x[new_order, new_order], 
+                                num_cluster)
     }
-
-    d = ecp::e.divisive(as.matrix(res_fuzzy$membership), min.size = min.size, k = num_cluster-1)
+    else {
+      res_fuzzy = e1071::cmeans(czek_matrix[new_order, 
+                                            new_order], num_cluster)
+    }
+    d = ecp::e.divisive(as.matrix(res_fuzzy$membership), 
+                        min.size = min.size, k = num_cluster - 1)
     breakpoints = d$estimates
     cluster_res = d$cluster
-
     cluster_boundary = matrix(NA, nrow = num_cluster, ncol = 4)
     membership = matrix(0, nrow = n, ncol = num_cluster)
-
-    if(cluster_type == "exact"){
+    if (cluster_type == "exact") {
       for (i in 1:num_cluster) {
-        cluster_boundary[i,] = c(breakpoints[i]-0.5, n-breakpoints[i]+1.5, breakpoints[i+1]-0.5, n-breakpoints[i+1]+1.5)
-        cluster_id[[i]] = new_order[breakpoints[i]:(breakpoints[i+1]-1)]
-
-        membership[breakpoints[i]:(breakpoints[i+1]-1), i] = 1
+        cluster_boundary[i, ] = c(breakpoints[i] - 0.5, 
+                                  n - breakpoints[i] + 1.5, breakpoints[i + 1] - 0.5, n - breakpoints[i + 1] + 1.5)
+        cluster_id[[i]] = new_order[breakpoints[i]:(breakpoints[i + 1] - 1)]
+        membership[breakpoints[i]:(breakpoints[i + 1] - 1), i] = 1
       }
-    }else if(cluster_type == "fuzzy"){
-      d = ecp::e.divisive(as.matrix(res_fuzzy$membership), min.size = min.size, sig.lvl = sig.lvl)
-      candidate = d$estimates
-      bandwidth = ceiling(n * scale_bandwidth)
-
-      for (i in 1:num_cluster) {
+    }
+    else if(cluster_type == "fuzzy"){
+      cl = FuzzyDBScan::FuzzyDBScan$new(res_fuzzy$membership, eps, pts)
+      
+      d1 = ecp::e.divisive(as.matrix(cl$dense), min.size = min.size, k = num_cluster-1)
+      
+      differences <- d$cluster != d1$cluster
+      different_indices <- which(differences)
+      
+      diff_areas <- list()
+      current_area <- c()
+      for (i in seq_along(different_indices)) {
+        if (i == 1 || different_indices[i] != different_indices[i - 1] + 1) {
+          if (length(current_area) > 0) {
+            diff_areas[[length(diff_areas) + 1]] <- c(current_area[1], current_area[length(current_area)] + 1)
+          }
+          current_area <- different_indices[i]
+        } else {
+          current_area <- c(current_area, different_indices[i])
+        }
+      }
+      if (length(current_area) > 0) {
+        diff_areas[[length(diff_areas) + 1]] <- c(current_area[1], current_area[length(current_area)] + 1)
+      }
+      
+      
+      for (i in 1:num_cluster){
         lower = breakpoints[i]
         upper = breakpoints[i+1]
-        id = candidate[which(candidate %in% c((lower-bandwidth):(upper+bandwidth)))]
-
-        cluster_boundary[i,] = c(min(id, lower)-0.5, n-min(id, lower)+1.5, max(id, upper)-0.5, n-max(id, upper)+1.5)
-        cluster_id[[i]] = c(min(id, lower):(max(id, upper)-1))
-        membership[breakpoints[i]:(breakpoints[i+1]-1), i] = 1
+        
+        for (diff in diff_areas){
+          if (lower >= diff[1] && lower <= diff[2]){
+            lower = diff[1]
+          }
+          if (upper >= diff[1] && upper <= diff[2]){
+            upper = diff[2]
+          }
+          cluster_boundary[i,] = c(lower-0.5, n-lower+1.5, upper-0.5, n-upper+1.5)
+          cluster_id[[i]] = c(lower:(upper-1))
+          membership[breakpoints[i]:(breakpoints[i+1]-1), i] = 1
+        }
       }
-
+      
       temp = unlist(cluster_id)
       fuzzy_id = temp[duplicated(temp)]
-
-      for (i in fuzzy_id) {
-        foo = which(sapply(cluster_id, function(x) i %in% x))
-        prob = rep(0, num_cluster)
-        prob[foo] = res_fuzzy$membership[i,foo]
-        prob = prob/sum(prob)
-        cluster_res[i] = sample(1:num_cluster, 1, prob = prob)
-
-        membership[i,] = prob
+      
+      for (i in 1:nrow(res_fuzzy$membership)){
+        if (i %in% fuzzy_id){
+          foo = which(sapply(cluster_id, function(x) i %in% x))
+          current_membership = rep(0, num_cluster)
+          current_membership[foo] = res_fuzzy$membership[i, foo] * (1 + alpha * (cl$dense[i] - theta))
+          current_membership <- current_membership / sum(current_membership)
+          membership[i,] = current_membership
+          # cluster_res[i] = sample(1:num_cluster, 1, prob = current_membership)
+          cluster_res[i] = which.max(current_membership)
+        }
+        else{
+          membership[i,] = res_fuzzy$membership[i,]
+        }
       }
-    }else{
+    }else {
       stop("Wrong cluster method.")
     }
-
     names(cluster_res) = rownames(x)[new_order]
     rownames(membership) = rownames(x)[new_order]
-
     attr(czek_matrix, "cluster") <- TRUE
     attr(czek_matrix, "num_cluster") <- num_cluster
     attr(czek_matrix, "cluster_res") <- cluster_res[order(new_order)]
     attr(czek_matrix, "cluster_type") <- cluster_type
     attr(czek_matrix, "cluster_boundary") <- cluster_boundary
-    attr(czek_matrix, "membership") <- membership[order(new_order),]
+    attr(czek_matrix, "membership") <- membership[order(new_order), 
+    ]
   }
-
   if ((!as_dist) && (!original_diagram)) {
     if (monitor %in% c(TRUE, "cumulativ_plot")) {
-      if (monitor == TRUE)
+      if (monitor == TRUE) 
         monitor <- "plot"
-      cum_probs <- as.numeric(gsub(pattern = "%", replacement = "",
+      cum_probs <- as.numeric(gsub(pattern = "%", replacement = "", 
                                    x = names(interval_breaks)))
       plot_values <- cum_probs[-1]
       my_title <- "Cumulative distribution of distances in each class"
       if (monitor == "plot") {
         probs <- c()
         for (i in 2:(length(cum_probs))) {
-          probs[i - 1] <- cum_probs[i] - cum_probs[i -
+          probs[i - 1] <- cum_probs[i] - cum_probs[i - 
                                                      1]
         }
         plot_values <- probs
         my_title <- "Distribution of distances in classes"
       }
       names(plot_values) <- levels(cut_the_values)
-      graphics::barplot(plot_values, main = my_title,
-                        col = c("grey30"), xlab = "Classes of distances",
+      graphics::barplot(plot_values, main = my_title, 
+                        col = c("grey30"), xlab = "Classes of distances", 
                         ylim = c(0, 100), yaxt = "n")
-      graphics::axis(2, at = seq(0, 100, by = 10), labels = paste(seq(0, 100, by = 10), "%", sep = ""), las = 2)
+      graphics::axis(2, at = seq(0, 100, by = 10), labels = paste(seq(0, 
+                                                                      100, by = 10), "%", sep = ""), las = 2)
       graphics::box(col = "black")
     }
     class(czek_matrix) <- "czek_matrix"

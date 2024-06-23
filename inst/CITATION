@@ -46,3 +46,18 @@ bibentry(
   doi = "10.14708/ma.v50i2.7164"
 )
 
+
+bibentry(
+  bibtype = "Article",
+  textVersion = "Bartoszek K., Luo Y., Identifying clusters in Czekanowski's diagram, Mathematica Applicanda, 2023, 51(2), 183-198",
+  author = "K. Bartoszek and Y. Luo",
+  title = "Identifying clusters in Czekanowski's diagram",
+  journal = "Mathematica Applicanda (Matematyka Stosowana)",
+  year = "2023",
+  volume = "51",
+  issue = "2", 
+  pages = "183–198",
+  doi = "10.14708/ma.v51i2.7259"
+)
+
+
